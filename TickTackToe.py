@@ -1,12 +1,4 @@
 
-
-
-#The Starting Game Screen Grid
-NoWin = True
-winFor0 = False
-winForX = False 
-Draw = False
-
 #The function change Grid
 GridForInput = {'RowOne' : "A|B|C", 'Rowtwo' : "D|E|F",'Rowthree' : "G|H|I"}
 
@@ -39,7 +31,8 @@ def NumToAlpha(PR,PC):
     elif(PR == 3 and PC == 3):
         return ("I", "Rowthree")
     else:
-        ("else Has Occord")
+        print("Enter a worng number the program has stop")
+        exit()
 
 
 
@@ -58,44 +51,49 @@ def GridToGrid():
         DGrid[key] = DGrid[key].replace("I","_")
     return DGrid
 
-def Didwinn(Grid):
-    TotalGrid = ""
-    #For Statment to check if there is a draw
-    for value in Grid.values():
-        TotalGrid += value
-    #checks wheather or not a row is complete
-    condation10 = (Grid['RowOne'] == "0|0|0" or Grid['RowTwo'] == "0|0|0", Grid['Rowthree'] == "0|0|0")
-    #these condation 1 Checks if a colummn is compelet
-    condationCol10 = (Grid['RowOne'][0] + Grid['RowTwo'][0] + Grid['RowThree'][0]) == "000"
-    condationCol20 = (Grid['RowOne'][2] + Grid['RowTwo'][2] + Grid['RowThree'][2]) == "000"
-    condationCol30 = (Grid['RowOne'][-1] + Grid['RowTwo'][-1] + Grid['RowThree'][-1]) == "000"
-    #Dieaganal Condations
-    condationDie10 = (Grid['RowOne'][0] + Grid['RowTwo'][2] + Grid['RowThree'][-1]) == "000"
-    condationDie20 = (Grid['RowOne'][-1] + Grid['RowTwo'][2] + Grid['RowThree'][0]) == "000"
-    #Checking the X options for victory
-    #checks wheather or not a row is complete
-    condation1x = (Grid['RowOne'] == "X|X|X" or Grid['RowTwo'] == "X|X|X", Grid['Rowthree'] == "X|X|X")
-    #these condation 1 Checks if a colummn is compelet
-    condationCol1X = (Grid['RowOne'][0] + Grid['RowTwo'][0] + Grid['RowThree'][0]) == "XXX"
-    condationCol2X = (Grid['RowOne'][2] + Grid['RowTwo'][2] + Grid['RowThree'][2]) == "XXX"
-    condationCol3X = (Grid['RowOne'][-1] + Grid['RowTwo'][-1] + Grid['RowThree'][-1]) == "XXX"
-    #Dieaganal 
-    condationDie1X = (Grid['RowOne'][0] + Grid['RowTwo'][2] + Grid['RowThree'][-1]) == "XXX"
-    condationDie2X = (Grid['RowOne'][-1] + Grid['RowTwo'][2] + Grid['RowThree'][0]) == "XXX"
-    # If statment for o's condations victory being met 
-    if(condation10 or condationCol10 or condationCol20 or condationCol30 or condationDie10 or condationDie20):
-        winFor0 = True
-        return winFor0,winForX,Draw, NoWin
-    elif(condation1x or condationCol1X or condationCol2X or condationCol3X or condationDie1X or condationDie2X):
-        winForX = True
-        return winFor0,winForX,Draw, NoWin
-    elif("_" in TotalGrid):
-        return winFor0,winForX,Draw, NoWin
-    else:
-        Draw = True
-        return winFor0,winForX,Draw, NoWin
 
 #Function To display Grid for Tick Tac Toe
+
+def WinSat(IGrid):
+    winForO = ['0|0|0','000']
+    winForX = ['X|X|X','XXX']
+    #rows of the Tick Tac Toe grid
+    row1 = IGrid['RowOne']
+    row2 = IGrid['Rowtwo']
+    row3 = IGrid['Rowthree']
+    #The columns of the tick tack toe Grid
+    col1 = IGrid['RowOne'][0] + IGrid['Rowtwo'][0] + IGrid['Rowthree'][0]
+    col2 = IGrid['RowOne'][2] + IGrid['Rowtwo'][2] + IGrid['Rowthree'][2] 
+    col3 = IGrid['RowOne'][-1] + IGrid['Rowtwo'][-1] + IGrid['Rowthree'][-1]
+    #Dieangelo
+    die1 = IGrid['RowOne'][-1] + IGrid['Rowtwo'][2] + IGrid['Rowthree'][0]
+    die2 = IGrid['RowOne'][0] + IGrid['Rowtwo'][2] + IGrid['Rowthree'][-1]
+    #All  Sum of copy grid
+    Dgrid = GridToGrid()
+    SumAll = Dgrid['RowOne'] + Dgrid['Rowtwo'] + Dgrid['Rowthree']
+    if((row1 in winForO) or (row2 in winForO) or (row3 in winForO) or (col1 in winForO) or (col2 in winForO) or (col3 in winForO) or (die1 in winForO) or (die2 in winForO)):
+        return [False,"0Win"]
+    elif((row1 in winForX) or (row2 in winForX) or (row3 in winForX) or (col1 in winForX) or (col2 in winForX) or (col3 in winForX) or (die1 in winForX) or (die2 in winForX)):
+        return [False,"XWin"]
+    elif("_" in SumAll):
+        return [True, "GameOn"]
+    else:
+        return [False, "Draw"]
+    
+#Function to check wheather or not game is over:
+
+def EndWord(stats):
+    if stats == "0Win":
+        return print("Player 1 has won the game. Good for you!")
+    elif stats == "XWin":
+        return print("Player 2 has won the game. Good for you!")
+    elif stats == "Draw":
+        return print("It's a draw. You both lose.")
+    
+    
+            
+
+
 def DisplayFunction(DGrid):
     Display = ""
     for value in DGrid.values():
@@ -103,40 +101,41 @@ def DisplayFunction(DGrid):
     return Display
 
 
-TikTackToe = """                                (
--------       *     | /    -------       /\       (       -------      (  )
-   |          |     |/        |         /  \     (           |        (    )
-   |          |     |\        |        /----\     (          |        (    )
-   |          |     | \       |       /      \      (        |         (  )
-     
+TikTackToe = """                                                    (
+-------       *     | /    -------       /\       (       -------      (  )     |------
+   |          |     |/        |         /  \     (           |        (    )    |
+   |          |     |\        |        /----\     (          |        (    )    |------
+   |          |     | \       |       /      \      (        |         (  )     |
+                                                                                |------                                                       
 
                             """
                             
    
 print(TikTackToe)
 
-while NoWin == True:
+NoWin = True
+
+while NoWin:
+    #Frist Round For player One
     print(DisplayFunction(GridToGrid()))
     Player1Row = int(input("Player One: Wich Row do you want. Enter A number 1-3!"))
     Player1Col = int(input("Wich Column. Enter a Number 1-3!"))
     Alpha,Row = NumToAlpha(Player1Row,Player1Col)
     ChangeGrid(Alpha,'Player0',Row)
+    list1 = WinSat(GridForInput)
+    NoWin = list1[0]
+    stats = list1[1]
+    EndWord(stats)
+    #Seconed Round For player Two
     print(DisplayFunction(GridToGrid()))
     Player2Row = int(input("Player Two: Wich Row do you want. Enter A number 1-3!"))
     Player2Col = int(input("Wich Column. Enter a Number 1-3!"))
     Alpha,Row = NumToAlpha(Player2Row,Player2Col)
     ChangeGrid(Alpha,'PlayerX',Row)
-    Didwinn(GridForInput)
-    if (winFor0):
-        print("Player One has won. Good For you!")
-        break
-    elif(winForX):
-        print("Player Two has won. Good For you!")
-        break
-    elif(Draw):
-        print("No one has won. What a pair of losers!")
-        break
-    
+    list1 = WinSat(GridForInput)
+    NoWin = list1[0]
+    stats = list1[1]
+    EndWord(stats)
     
 
     
