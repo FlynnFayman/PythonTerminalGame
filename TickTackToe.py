@@ -126,6 +126,8 @@ while NoWin:
     NoWin = list1[0]
     stats = list1[1]
     EndWord(stats)
+    if not NoWin:
+        break
     #Seconed Round For player Two
     print(DisplayFunction(GridToGrid()))
     Player2Row = int(input("Player Two: Wich Row do you want. Enter A number 1-3!"))
@@ -136,6 +138,8 @@ while NoWin:
     NoWin = list1[0]
     stats = list1[1]
     EndWord(stats)
+    if not NoWin:
+        break
     
 
     
